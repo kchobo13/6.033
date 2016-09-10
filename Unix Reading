@@ -1,0 +1,56 @@
+Unix
+I. Intro
+   - four versions of Unix (PDP-7 9. PDP-11/20, 11/34 40 45 60 70, 11/70)
+   - most important achievement is powerful OS that is inexpensive
+   - simplicity, elegance, ad ease of use
+
+II. Hardware and Software
+   - 16-bit word computer with 768K bytes of core memory
+   - kernel = about 90K bytes with code and data tables
+   - large number of drivers and space for I/O buffers and system tables
+   - their machine - 200 Mb with 20 variable-speed communications attached to 300- and 1200- baud data sets
+   - written in C and size of new system was about 1/3 greater than old
+   - new was easier to understand and modify.
+
+III. File System
+   - 3 ordinary, directories, and special files
+   - Ordinary
+      + standard file that we think of (text, code)
+      + structure of files contrlled by programs not the system
+   - Directories
+      + mapping between names of files and files 
+      + user has his own directories that he edits
+      + system has several directories of its own: root <= starting point of searches for desired file, commands <= programs for general use
+      + not necessary for program to reside in the two directories to run
+      + 14 or fewer characters.
+      + linking - same non-directory file is present in several directories under different names
+      + file exists independently of any directory entry
+   - Special Files
+      + read adn written like ordinary files but requests to read or write elad to activation of associated device
+      + entry resides in /dev directory
+      + exists for each communication line, each disk, tape drive and physical main memory
+      + 3 advantages
+         1. fiel and device I/O are as similar as possible
+         2. file and dvice names have same syntax and meaning => program expecting file anme cna be passed a device name
+         3. subject to same protection as regular files
+    - Removable file systems
+      + mount system with two argument: name of existing file and name of special file
+      + effecto f mount = cause references to ordinary to refer to root on removable volume
+      + mount replaces leaf of hierarchy tree by  whole new subtree
+    - Protection
+      + user has unique ID and marks file of this ID
+      + 10th bit = on ID is changed only for execution of program
+    - I/O Calls
+      + to open we get a file descriptor by opening a file which is an integer used to identify the file in subsequent class
+      + create does same thing just sets it to zero length.
+      + locks are neither necessary nor sufficient to prevent interference between users of the same file.
+      + sufficient internal interlocks are used to maintain logical consistency fo the file system
+      + read(filep, buffer, count), write( "same")
+      + count bytes are transmitted bntween filep and byte array specified by buffer.
+IV. Implementation of File System
+    - directory entry had name and pointer (which was an integer called the i-number)
+    - i-number is used to access the system table (i-list) as the index to get the file
+    - entry is called the i-node which contains info such as: user and group ID, protection bits, physical bit/tape address of contents, size, time of creation, last used, modified, number of links to file/times it appears in directory, and code indicating file type
+    - open or create makes path name into i-number
+    - if file is special, last 12 device address words are immaterial and first is internal device name, two numbers = device type and subdevice number
+    - mount maintains system table with i-number and device name of ordinary <- corresponding value is device name of special file

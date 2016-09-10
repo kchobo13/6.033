@@ -1,0 +1,35 @@
+Unix question 2015
+
+fork() returns 0 to child prcoess and the child's pid to the parent. Parent keeps track of the child and child just gets 0 and doesn't know the parent.
+
+False, new process is always created.
+
+parent process - shell- calls fork() and then has to use wait() to determin when child is done and that it can move on to the next command
+
+
+Process ~ virtual computer
+ - image: memory + registers + status of file pointers + current directory + ...
+ - Memory
+ - Fork: splits into two processes
+    - distinguish by retrun value: parent will get child's id
+    - independent copies of memory
+    - share all open files: file pointers
+
+ Pipes: shared read/write communication channel among processes
+  - looks like a file (doesn't everything)
+  - higher - level abstraction of send/receive
+  - Must be set up by common ancestor
+
+ Execute (file, arg1, ... argn)
+  - appens in the calling process
+
+ procesesid = wait(status)
+  - waits until some child process completes: processid tells which one 
+
+exit(status)
+
+Shell - you had experience with the hands-on: can write own
+
+traps
+ - hardware-detected faults
+ - user generated interrupts
